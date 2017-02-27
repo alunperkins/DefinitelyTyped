@@ -1731,4 +1731,335 @@ export interface OptionsShadow {
   y: number;
 }
 
+
+
+/** Author: Alun, Jeremy, from http://visjs.org/docs/graph2d */
+/**
+*  Graph2d is an interactive visualization chart to draw data in a 2D graph. You can freely move and zoom in the
+* graph by dragging and scrolling in the window.
+* Graph2d uses HTML DOM and SVG for rendering. This allows for flexible customization using css styling.
+* @export
+* @class Graph2d
+*/
+export class Graph2d {
+
+  /**
+   * Creates an instance of Graph2d.
+   *
+   * @param {HTMLElement} container the HTML element representing the Graph2d container
+   * @param {DataSet<IGraphData[]>} data Graph2d data
+   * @param {IGraphOptions} [options] optional Graph2d options
+   *
+   * @memberOf Graph2d
+   */
+  constructor(container: HTMLElement, data: DataSet<IGraphData>, options?: IGraphOptions);
+
+  /**
+  * Destroy the Graph2d. The Graph2d is removed from memory. all DOM elements and event listeners are cleaned up.
+  *
+  * @memberOf Graph2d
+  */
+  public destroy(): void;
+
+  /**
+  * Adjust the visible window such that it fits all items.
+  *
+  * @memberOf Graph2d
+  */
+  public fit(): void;
+
+  /**
+  * Get the current time. Only applicable when option showCurrentTime is true.
+  *
+  * @memberOf Graph2d
+  */
+  public getCurrentTime(): Date;
+
+  /**
+  * Retrieve the custom time. Only applicable when the option showCustomTime is true.
+  *
+  * @memberOf Graph2d
+  */
+  public getCustomTime(): Date;
+
+  /**
+  * Get the range of all the items as an object containing min: Date and max: Date.
+  *
+  * @memberOf Graph2d
+  */
+  public getDataRange(): IDateRange;
+
+  /**
+  * Returns an Object with relevant properties from an event:
+  *
+  * @memberOf Graph2d
+  */
+  public getEventProperties(event: any): IEventProperties;
+
+  /**
+  * Returns an object containing an SVG element with the icon of the group
+  * (size determined by iconWidth and iconHeight), the label of the group
+  * (content) and the yAxisOrientation of the group (left or right).
+  *
+  * @memberOf Graph2d
+  */
+  public getLegend(groupId: string | number, iconWidth: number, iconHeight: number): any;
+
+  /**
+  * Get the current visible window. Returns an object with properties start: Date and end: Date.
+  *
+  * @memberOf Graph2d
+  */
+  public getWindow(): IDateRange;
+
+  /**
+  * This checks if the visible option of the supplied group (by ID) is true or false.
+  *
+  * @memberOf Graph2d
+  */
+  public isGroupVisible(groupId: string | number): boolean;
+
+  /**
+  * Move the window such that given time is centered on screen. Parameter time can be a Date, Number, or String. Available options:
+  * animate: boolean or number If true (default), the range is animated smoothly to the new window.
+  * If a number, the number is taken as duration for the animation. Default duration is 500 ms.
+  *
+  * @memberOf Graph2d
+  */
+  public moveTo(time: Date | string | number, options?: IMoveGraph2dOptions): void;
+
+  /**
+  * Create an event listener. The callback function is invoked every time the
+  * event is triggered. Available events: rangechange, rangechanged, select.
+  * The callback function is invoked as callback(properties), where properties
+  * is an object containing event specific properties.
+  *
+  * @memberOf Graph2d
+  */
+  public on(eventName: Graph2dEvents, callback: (params?: any) => void): void;
+
+  /**
+  * Remove an event listener created before via function on(event, callback).
+  *
+  * @memberOf Graph2d
+  */
+  public off(eventName: Graph2dEvents, callback?: (params?: any) => void): void;
+
+  /**
+  * Force a redraw of the Graph2d. Can be useful to manually redraw when option autoResize=false.
+  *
+  * @memberOf Graph2d
+  */
+  public redraw(): void;
+
+  /**
+  * Set a current time. This can be used for example to ensure that a client's
+  * time is synchronized with a shared server time. time can be a Date object,
+  * numeric timestamp, or ISO date string. Only applicable when option showCurrentTime is true.
+  *
+  * @memberOf Graph2d
+  */
+  public setCurrentTime(time: Date): void;
+
+  /**
+  * Adjust the custom time bar. Only applicable when the option showCustomTime is true.
+  * time can be a Date object, numeric timestamp, or ISO date string.
+  *
+  * @memberOf Graph2d
+  */
+  public setCustomTime(time: Date): void;
+
+  /**
+  * Set a data set with groups for the Graph2d. groups can be an Array with Objects,
+  * a DataSet, or a DataView. For each of the groups, the items of the Graph2d are
+  * filtered on the property group, which must correspond with the id of the group.
+  *
+  * @memberOf Graph2ds
+  */
+  public setGroups(groups: any): void;
+
+  /**
+  * Set a data set with items for the Graph2d. items can be an Array with Objects, a DataSet, or a DataView.
+  *
+  * @memberOf Graph2ds
+  */
+  public setItems(items: any): void;
+
+  /**
+  * Set or update options. It is possible to change any option of the Graph2d at any time. You can for example switch orientation on the fly.
+  *
+  * @memberOf Graph2ds
+  */
+  public setOptions(options: any): void;
+
+  /**
+  * Set the current visible window. The parameters start and end can be a
+  * Date, Number, or String. If the parameter value of start or end is null,
+  * the parameter will be left unchanged.
+  *
+  * @memberOf Graph2ds
+  */
+  public setWindow(start: Date | number | string, end: Date | number | string): void;
+}
+
+export interface IDateRange {
+  min: Date;
+  max: Date;
+}
+
+export interface IEventProperties {
+  pageX: number;
+  pageY: number;
+  x: number;
+  y: number;
+  time: Date;
+  value: number[];
+  what: string;
+  event: any;
+}
+
+export interface IMoveGraph2dOptions {
+  animate: boolean | number;
+}
+
+export interface IGraphOptions {
+    start?: Date | string;
+    end?: Date | string;
+}
+
+export interface IGraphData {
+    x?: Date | string;
+    y?: number;
+}
+
+type Graph2dEvents =
+ 'currentTimeTick' |
+ 'click' |
+ 'contextmenu' |
+ 'doubleClick' |
+ 'changed' |
+ 'rangechange' |
+ 'rangechanged' |
+ 'timechange' |
+'timechanged';
+
+export interface Item {
+  x: Date;
+  y: number;
+  group?: number | string;
+  label?: {
+    content: any, // string or number for best results, but any is allowed...
+    xOffset: number,
+    yOffset: number,
+    className: any, // not sure what this is...
+  };
+}
+
+export interface Group {
+  id: string | number;
+  content: string; // can be html
+  className?: any;
+  style?: string;
+  options?: GroupOptions;
+  visible?: boolean;
+}
+
+export interface GroupOptions {
+
+  barChart?: {
+    align?: string,
+    sideBySide?: boolean,
+    width?: number,
+    minWidth?: number,
+  };
+
+  drawPoints?: boolean | (a: Item, b: Group) => any | {
+    onRender?: (a: Item, b: Group, c: Graph2d) => any,
+    className?: any,
+    size?: number,
+    style?: string,
+    enabled?: boolean,
+  };
+
+  interpolation?: boolean | {
+    enabled?: boolean,
+    parametrization?: string,
+  };
+
+  sampling?: boolean;
+
+  sort?: boolean;
+
+  shaded?: {
+    enabled?: boolean,
+    orientation?: string,
+    groupId?: string,
+    style?: string,
+  };
+
+  style?: string;
+
+  yAxisOrientation?: string;
+
+  excludeFromLegend?: boolean;
+
+  excludeFromStacking?: boolean;
+}
+
+export interface Graph2dOptions extends GroupOptions extends TimelineOptions {
+  defaultGroup?: string;
+  dataAxis?: {
+    alignZeros?: boolean,
+    icons?: boolean,
+    left?: AxisOptions,
+    right?: AxisOptions,
+    showMinorLabels?: boolean,
+    showMajorLabels?: boolean,
+    visible?: boolean,
+    width?: number | string,
+  };
+  graphHeight?: number | string;
+  groups?: {visibility: Object}; // visibility Object should be (groupId: boolean, ...) for each group
+  legend?: {
+    enabled?: boolean,
+    icons?: boolean,
+    left?: {
+      visible?: boolean,
+      position?: boolean,
+    },
+    right?: {
+      visible?: boolean,
+      position?: boolean,
+    },
+  };
+  moment?: (Date) => Date;
+  stack?: boolean;
+  shaded?: boolean | {
+    enabled?: boolean,
+    orientation?: string,
+    groupId?: string,
+    style?: string,
+  };
+  style?: string;
+  yAxisOrientation?: string;
+  excludeFromLegend?: boolean;
+  excludeFromStacking?: boolean;
+}
+
+export interface AxisOptions {
+  format?: (x: number) => string;
+  range?: {
+    min?: number,
+    max?: number,
+  };
+  title?: {
+    style?: string,
+    text?: string,
+  };
+  showMinorLabels?: boolean;
+  showMajorLabels?: boolean;
+  visible?: boolean;
+  width?: number | string;
+}
+
 export as namespace vis;
